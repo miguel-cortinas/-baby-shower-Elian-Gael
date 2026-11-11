@@ -851,9 +851,11 @@
     }
 
     .opening-card.is-hidden {
-      opacity: 0;
-      transform: scale(0.92);
-      pointer-events: none;
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      animation: none !important;
     }
 
     .opening-card__heart {
@@ -986,6 +988,7 @@
     .opening-video.is-active {
       opacity: 1;
       pointer-events: auto;
+      z-index: 5;
     }
 
     /* Botón discreto de Saltar */
@@ -1765,6 +1768,7 @@
       // Iniciar el video al pulsar el botón o la tarjeta de bienvenida
       function startOpening() {
         card.classList.add('is-hidden');
+        card.style.display = 'none'; // Asegura remoción inmediata y completa
         video.classList.add('is-active');
         if (btnSkip) btnSkip.classList.add('is-visible');
 
