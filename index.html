@@ -758,6 +758,275 @@
     }
 
     /* ══════════════════════════════════════
+       TRANSICIÓN DE ENTRADA Y OPENING VIDEO
+    ══════════════════════════════════════ */
+    body.is-opening-active {
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .invitation-wrapper {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 1.4s ease-out;
+    }
+
+    body.is-opening-active .invitation-wrapper {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.97) translateY(12px);
+      filter: blur(5px);
+    }
+
+    body.is-revealing .invitation-wrapper {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
+      filter: blur(0);
+    }
+
+    /* Cortina cinematográfica de transición oscura */
+    .cinematic-curtain {
+      position: fixed;
+      inset: 0;
+      background: #000000;
+      z-index: 9998;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .cinematic-curtain.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cinematic-curtain.fade-out {
+      opacity: 0;
+      visibility: visible;
+    }
+
+    /* Pantalla completa del Opening */
+    .opening-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: radial-gradient(circle at center, #262c20 0%, #0d120a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow: hidden;
+      transition: opacity 0.5s ease;
+    }
+
+    .opening-overlay.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Tarjeta inicial de bienvenida */
+    .opening-card {
+      background: #fdfbf7;
+      border: 1px solid rgba(142, 163, 122, 0.35);
+      border-radius: 30px;
+      padding: 36px 24px 32px;
+      text-align: center;
+      max-width: 360px;
+      width: 100%;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 2px 12px rgba(142, 163, 122, 0.25);
+      position: relative;
+      z-index: 2;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+      animation: openingCardIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes openingCardIn {
+      0% { opacity: 0; transform: translateY(18px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .opening-card.is-hidden {
+      opacity: 0;
+      transform: scale(0.92);
+      pointer-events: none;
+    }
+
+    .opening-card__heart {
+      font-size: 22px;
+      color: #8da277;
+      margin-bottom: 6px;
+      animation: pulseHeart 2.2s infinite ease-in-out;
+    }
+
+    @keyframes pulseHeart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    .opening-card__pre {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8a8474;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .opening-card__title {
+      font-family: var(--font-script);
+      font-size: 3.2rem;
+      color: #434c38;
+      line-height: 1.1;
+      margin: 0 0 4px;
+      font-weight: 400;
+    }
+
+    .opening-card__baby {
+      font-family: var(--font-serif);
+      font-size: 1.28rem;
+      font-style: italic;
+      color: #656050;
+      margin-bottom: 16px;
+    }
+
+    .opening-card__divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 auto 24px;
+      max-width: 170px;
+      color: #92a480;
+    }
+
+    .opening-card__divider span {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(146, 164, 128, 0.45), transparent);
+    }
+
+    .btn-opening {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 26px;
+      background: linear-gradient(135deg, #96af81 0%, #7d9767 100%);
+      color: #ffffff;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      border-radius: 100px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(105, 128, 85, 0.45);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+      animation: pulseOpeningBtn 2.6s infinite ease-in-out;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes pulseOpeningBtn {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 24px rgba(105, 128, 85, 0.45);
+      }
+      50% {
+        transform: scale(1.035);
+        box-shadow: 0 12px 32px rgba(105, 128, 85, 0.65);
+      }
+    }
+
+    .btn-opening:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 30px rgba(105, 128, 85, 0.6);
+    }
+
+    .btn-opening:active {
+      transform: scale(0.97);
+    }
+
+    .btn-opening__icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-opening__icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Video del Opening */
+    .opening-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      object-fit: contain;
+      background: #000000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 1;
+    }
+
+    .opening-video.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Botón discreto de Saltar */
+    .btn-skip-opening {
+      position: absolute;
+      top: max(18px, env(safe-area-inset-top, 18px));
+      right: max(18px, env(safe-area-inset-right, 18px));
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 7px 15px;
+      border-radius: 100px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, background 0.2s ease, transform 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-skip-opening.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .btn-skip-opening:hover {
+      background: rgba(0, 0, 0, 0.75);
+      transform: scale(1.04);
+    }
+
+    .btn-skip-opening:active {
+      transform: scale(0.96);
+    }
+
+    /* ══════════════════════════════════════
        BURBUJA FLOTANTE DE MÚSICA (FAB)
     ══════════════════════════════════════ */
     .music-fab {
@@ -779,16 +1048,25 @@
       padding: 0;
       outline: none;
       -webkit-tap-highlight-color: transparent;
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.6);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, box-shadow 0.25s ease;
+    }
+
+    .music-fab.fab-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
       animation: fabIdlePulse 3.5s ease-in-out infinite;
     }
 
-    .music-fab:hover {
+    .music-fab.fab-visible:hover {
       transform: scale(1.08) translateY(-2px);
       box-shadow: 0 12px 26px rgba(105, 128, 85, 0.48), 0 4px 8px rgba(0, 0, 0, 0.12);
     }
 
-    .music-fab:active {
+    .music-fab.fab-visible:active {
       transform: scale(0.94);
     }
 
@@ -830,7 +1108,7 @@
     }
 
     /* Animación rítmica del botón al reproducir */
-    .music-fab.is-playing {
+    .music-fab.fab-visible.is-playing {
       animation: fabPlayingBounce 2.4s ease-in-out infinite;
       background: linear-gradient(135deg, #8ba873 0%, #6f8959 100%);
     }
@@ -991,7 +1269,55 @@
   </style>
 </head>
 
-<body>
+<body class="is-opening-active">
+
+  <!-- ══════════════ APERTURA / OPENING VIDEO ══════════════ -->
+  <div id="openingOverlay" class="opening-overlay" aria-modal="true" role="dialog" aria-label="Apertura de la invitación">
+    <!-- Tarjeta inicial de bienvenida -->
+    <div class="opening-card" id="openingCard">
+      <div class="opening-card__heart" aria-hidden="true">♡</div>
+      <p class="opening-card__pre">Estás cordialmente invitado</p>
+      <h1 class="opening-card__title">Baby Shower</h1>
+      <p class="opening-card__baby">Elian Gael</p>
+      <div class="opening-card__divider" aria-hidden="true">
+        <span></span>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <span></span>
+      </div>
+
+      <button type="button" class="btn-opening" id="btnOpenInvitation" aria-label="Abrir invitación y reproducir video">
+        <span class="btn-opening__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </span>
+        Abrir invitación
+      </button>
+    </div>
+
+    <!-- Video Opening -->
+    <video
+      id="openingVideo"
+      class="opening-video"
+      src="img/opening.mp4"
+      playsinline
+      webkit-playsinline
+      preload="auto">
+    </video>
+
+    <!-- Botón discreto para saltar video -->
+    <button type="button" class="btn-skip-opening" id="btnSkipOpening" aria-label="Saltar video y entrar a la invitación">
+      Saltar ✕
+    </button>
+  </div>
+
+  <!-- Cortina cinematográfica de transición oscura -->
+  <div id="cinematicCurtain" class="cinematic-curtain" aria-hidden="true"></div>
+
+  <!-- Contenedor principal de la invitación -->
+  <div id="invitationWrapper" class="invitation-wrapper">
 
   <!-- ══════════════ ESCENARIO HERO ══════════════ -->
   <header class="hero-stage" id="inicio">
@@ -1198,6 +1524,7 @@
     <p class="closing-banner__script">¡Te esperamos!</p>
     <p class="closing-banner__copy">Elian Gael · 5 de Diciembre · Granja Gutiérrez</p>
   </footer>
+  </div> <!-- /#invitationWrapper -->
 
   <!-- ══════════════ REPRODUCTOR DE MÚSICA & BOTÓN FLOTANTE ══════════════ -->
   <button type="button" class="music-fab" id="musicFab" aria-label="Reproducir música de fondo" title="Música">
@@ -1361,6 +1688,120 @@
           stopPlayback();
         } else {
           startPlayback();
+        }
+      });
+
+      // Exponer la función de inicio de música para sincronizar con el final del opening
+      window.startBackgroundMusic = startPlayback;
+    })();
+  </script>
+
+  <!-- Lógica de Opening y Transición Cinematográfica -->
+  <script>
+    (function () {
+      const overlay = document.getElementById('openingOverlay');
+      const card = document.getElementById('openingCard');
+      const video = document.getElementById('openingVideo');
+      const btnOpen = document.getElementById('btnOpenInvitation');
+      const btnSkip = document.getElementById('btnSkipOpening');
+      const curtain = document.getElementById('cinematicCurtain');
+      const fab = document.getElementById('musicFab');
+
+      if (!overlay || !video || !btnOpen) return;
+
+      let hasFinished = false;
+
+      function finishOpening() {
+        if (hasFinished) return;
+        hasFinished = true;
+
+        // 1. Pausar y silenciar video del opening
+        try {
+          video.pause();
+        } catch (e) {}
+
+        // 2. Activar cortina oscura (fondo negro que empata con el final del video)
+        if (curtain) {
+          curtain.classList.add('is-active');
+        }
+
+        // 3. Ocultar el overlay del video
+        overlay.classList.add('is-hidden');
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 500);
+
+        // 4. Activar estado de revelación en el cuerpo
+        document.body.classList.remove('is-opening-active');
+        document.body.classList.add('is-revealing');
+
+        // 5. Desvanecer la cortina negra con transición suave (efecto fade-in desde oscuro)
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            if (curtain) {
+              curtain.classList.add('fade-out');
+              setTimeout(() => {
+                curtain.style.display = 'none';
+              }, 1400);
+            }
+          }, 60);
+        });
+
+        // 6. Mostrar la burbuja de música con animación pop
+        if (fab) {
+          setTimeout(() => {
+            fab.classList.add('fab-visible');
+          }, 500);
+        }
+
+        // 7. Iniciar la música de fondo con desvanecido acústico suave (Fade In)
+        setTimeout(() => {
+          if (typeof window.startBackgroundMusic === 'function') {
+            window.startBackgroundMusic();
+          }
+        }, 400);
+      }
+
+      // Iniciar el video al pulsar el botón o la tarjeta de bienvenida
+      function startOpening() {
+        card.classList.add('is-hidden');
+        video.classList.add('is-active');
+        if (btnSkip) btnSkip.classList.add('is-visible');
+
+        video.currentTime = 0;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(function (err) {
+            console.warn('Reproducción de video bloqueada o falló:', err);
+            finishOpening();
+          });
+        }
+      }
+
+      btnOpen.addEventListener('click', function (e) {
+        e.stopPropagation();
+        startOpening();
+      });
+
+      card.addEventListener('click', function () {
+        startOpening();
+      });
+
+      // Cuando el video finalice de forma natural
+      video.addEventListener('ended', finishOpening);
+
+      // Botón discreto para saltar
+      if (btnSkip) {
+        btnSkip.addEventListener('click', function (e) {
+          e.stopPropagation();
+          finishOpening();
+        });
+      }
+
+      // Seguridad: Si el video está a punto de terminar (últimas décimas)
+      video.addEventListener('timeupdate', function () {
+        if (video.duration && video.currentTime >= video.duration - 0.2) {
+          finishOpening();
         }
       });
     })();
