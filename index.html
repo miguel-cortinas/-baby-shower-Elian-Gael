@@ -81,8 +81,8 @@
     .hero-stage {
       position: relative;
       width: 100%;
-      /* Altura calibrada al escenario ampliado */
-      padding-top: 88%;
+      /* Altura calibrada al arco superior al ras del borde móvil */
+      padding-top: 74%;
       background: linear-gradient(180deg, #f7f4ed 0%, #f7f4ed 70%, #ece5d4 85%, #dfd5be 96%, #e8e2d2 100%);
       overflow: hidden;
     }
@@ -115,61 +115,14 @@
       animation: floatHeart 4.5s ease-in-out infinite;
     }
 
-    /* Estela de vuelo punteada */
-    .floating-deco .flight-trail {
-      position: absolute;
-      top: 4.5%;
-      right: 11%;
-      width: 140px;
-      height: 35px;
-      opacity: 0.75;
-      pointer-events: none;
-    }
-
-    /* ── Zona Superior (recuadro horizontal) ── */
-    .floating-deco .top-1 {
-      top: 8%;
-      left: 28%;
-      font-size: 13px;
-      opacity: 0.55;
-      transform: rotate(-12deg);
-      animation-delay: 0.4s;
-    }
-
-    .floating-deco .top-2 {
-      top: 6%;
-      left: 46%;
-      font-size: 11px;
-      opacity: 0.45;
-      transform: rotate(8deg);
-      animation-delay: 1.8s;
-    }
-
-    .floating-deco .top-3 {
-      top: 9%;
-      left: 64%;
-      font-size: 14px;
-      opacity: 0.6;
-      transform: rotate(-6deg);
-      animation-delay: 2.7s;
-    }
-
-    .floating-deco .top-4 {
-      top: 6%;
-      left: 77%;
-      font-size: 10px;
-      opacity: 0.45;
-      transform: rotate(14deg);
-      animation-delay: 0.9s;
-    }
-
+    /* Estela de vuelo punteada y corazones superiores ocultos para permitir arco al borde */
+    .floating-deco .flight-trail,
+    .floating-deco .top-1,
+    .floating-deco .top-2,
+    .floating-deco .top-3,
+    .floating-deco .top-4,
     .floating-deco .top-5 {
-      top: 7%;
-      right: 9%;
-      font-size: 18px;
-      opacity: 0.75;
-      transform: rotate(18deg);
-      animation-delay: 0s;
+      display: none;
     }
 
     /* ── Zona Lateral Derecha (recuadro vertical) ── */
@@ -257,10 +210,10 @@
       }
     }
 
-    /* ─── 1. MAMPARA VERDE CON GLOBOS Y MOÑO (AMPLIADA) ─── */
+    /* ─── 1. MAMPARA VERDE CON GLOBOS Y MOÑO (AL BORDE SUPERIOR) ─── */
     .stage__mampara {
       position: absolute;
-      top: 1%;
+      top: -14%;
       left: -20%;
       width: 100%;
       height: auto;
@@ -762,13 +715,15 @@
     ══════════════════════════════════════ */
     body.is-opening-active {
       overflow: hidden;
-      height: 100vh;
+      touch-action: none;
     }
 
     .invitation-wrapper {
       position: relative;
       width: 100%;
       min-height: 100vh;
+      margin: 0;
+      padding: 0;
       transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
                   transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
                   filter 1.4s ease-out;
@@ -777,14 +732,14 @@
     body.is-opening-active .invitation-wrapper {
       opacity: 0;
       pointer-events: none;
-      transform: scale(0.97) translateY(12px);
-      filter: blur(5px);
+      transform: scale(0.985);
+      filter: blur(4px);
     }
 
     body.is-revealing .invitation-wrapper {
       opacity: 1;
       pointer-events: auto;
-      transform: scale(1) translateY(0);
+      transform: scale(1);
       filter: blur(0);
     }
 
@@ -1729,6 +1684,11 @@
       function finishOpening() {
         if (hasFinished) return;
         hasFinished = true;
+
+        // 0. Anclar posición de scroll al inicio superior absoluto (0, 0)
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
 
         // 1. Pausar y silenciar video del opening
         try {
