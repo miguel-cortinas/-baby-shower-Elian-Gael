@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -228,6 +228,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+
       .floating-deco .heart,
       .opening-card__heart,
       .music-fab,
@@ -589,6 +590,134 @@
       height: 16px;
       fill: currentColor;
       flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       SECCIÓN MESA DE REGALOS
+    ══════════════════════════════════════ */
+    .registry-section {
+      background: var(--cream-bg);
+      padding: 18px 18px 34px;
+      text-align: center;
+    }
+
+    .registry-section__title {
+      font-family: var(--font-script);
+      color: #4a5440;
+      font-size: 2.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .registry-section__title span {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: #B8973E;
+    }
+
+    .registry-section__quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--text-sub);
+      font-size: 13.5px;
+      line-height: 1.5;
+      max-width: 320px;
+      margin: 0 auto 16px;
+    }
+
+    .registry-section__duck-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .registry-section__duck {
+      width: 125px;
+      max-width: 38%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 8px 16px rgba(100, 90, 70, 0.22));
+    }
+
+    .registry-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
+    .registry-card {
+      background: var(--cream-card);
+      border-radius: 20px;
+      padding: 16px 12px;
+      text-align: center;
+      box-shadow: 0 2px 14px rgba(130, 120, 95, 0.08);
+      border: 1px solid rgba(220, 215, 200, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .registry-card__icon {
+      color: #B8973E;
+      margin-bottom: 6px;
+    }
+
+    .registry-card__icon svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5;
+      filter: drop-shadow(0 1px 2px rgba(184, 151, 62, 0.35));
+    }
+
+    .registry-card__title {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      color: #4a5440;
+      letter-spacing: 0.02em;
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+
+    .registry-card__sub {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .registry-section__footer {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--text-sub);
+      font-size: 13.5px;
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .registry-section__footer span {
+      color: #B8973E;
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 11px;
+    }
+
+    .registry-section__footer::before,
+    .registry-section__footer::after {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: rgba(184, 151, 62, 0.4);
     }
 
     /* ══════════════════════════════════════
@@ -1001,7 +1130,7 @@
     }
 
     .btn-opening:focus-visible {
-      outline: 2px solid rgba(255,255,255,0.8);
+      outline: 2px solid rgba(255, 255, 255, 0.8);
       outline-offset: 3px;
     }
 
@@ -1365,6 +1494,36 @@
         letter-spacing: 0.02em;
       }
 
+      .registry-cards {
+        gap: 8px;
+      }
+
+      .registry-card {
+        padding: 12px 8px 10px;
+      }
+
+      .registry-card__title {
+        font-size: 11px;
+      }
+
+      .registry-card__sub {
+        font-size: 9px;
+      }
+
+      .registry-section__duck {
+        width: 105px;
+      }
+
+      .registry-section__footer {
+        font-size: 11.5px;
+        gap: 6px;
+      }
+
+      .registry-section__footer::before,
+      .registry-section__footer::after {
+        width: 20px;
+      }
+
       .music-fab {
         width: 44px;
         height: 44px;
@@ -1573,7 +1732,58 @@
         </a>
       </section>
 
-      <!-- ══════════════ 7. CONFIRMACIÓN DE ASISTENCIA ══════════════ -->
+      <!-- ══════════════ 7. MESA DE REGALOS ══════════════ -->
+      <section class="registry-section" id="regalos" aria-label="Mesa de regalos">
+        <h2 class="registry-section__title">
+          <span>♡</span> Mesa de Regalos <span>♡</span>
+        </h2>
+        <p class="registry-section__quote">
+          Tu presencia es nuestro mejor regalo, pero si deseas tener un detalle con nosotros:
+        </p>
+
+        <!-- Ilustración del patito con regalos -->
+        <div class="registry-section__duck-wrap">
+          <img src="img/pato-regalos.png" alt="Patito con regalos" class="registry-section__duck" loading="lazy" />
+        </div>
+
+        <!-- Tarjetas de opciones de regalo -->
+        <div class="registry-cards">
+          <!-- Opción 1: Pañales y miscelánea -->
+          <div class="registry-card">
+            <div class="registry-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 12v10H4V12" />
+                <path d="M2 7h20v5H2z" />
+                <path d="M12 22V7" />
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+              </svg>
+            </div>
+            <h3 class="registry-card__title">Pañales y miscelánea</h3>
+            <p class="registry-card__sub">Cualquier etapa o detalle para el bebé será recibido con mucho amor.</p>
+          </div>
+
+          <!-- Opción 2: Lluvia de sobres -->
+          <div class="registry-card">
+            <div class="registry-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            </div>
+            <h3 class="registry-card__title">Lluvia de sobres</h3>
+            <p class="registry-card__sub">Si deseas tener un detalle adicional, puedes contribuir a la lluvia de sobres.
+            </p>
+          </div>
+        </div>
+
+        <!-- Cierre cálido de la sección -->
+        <p class="registry-section__footer">
+          <span>♡</span> Gracias por tu cariño y generosidad <span>♡</span>
+        </p>
+      </section>
+
+      <!-- ══════════════ 8. CONFIRMACIÓN DE ASISTENCIA ══════════════ -->
       <section class="gifts-wrap" id="confirmacion" aria-label="Confirmación de asistencia">
         <!-- Racimo con moño a la izquierda -->
         <img class="gifts-wrap__balloons" src="img/conjunto-globos.png" alt="" aria-hidden="true" loading="lazy" />
@@ -1587,7 +1797,7 @@
             <span>♡</span> Confirmación <span>♡</span>
           </h2>
           <p class="gifts-wrap__desc">
-            Tu presencia es el mejor regalo.<br />
+            ¡Nos hace mucha ilusión celebrar contigo este día tan especial!<br />
             Por favor confírmanos tu asistencia para tenerte en cuenta.
           </p>
         </div>
@@ -1737,7 +1947,7 @@
 
         const ctx = getAudioContext();
         if (ctx && ctx.state === 'suspended') {
-          ctx.resume().catch(() => {});
+          ctx.resume().catch(() => { });
         }
 
         if (gainNode && ctx) {
@@ -1814,7 +2024,7 @@
 
         const ctx = getAudioContext();
         if (ctx && ctx.state === 'suspended') {
-          ctx.resume().catch(() => {});
+          ctx.resume().catch(() => { });
         }
 
         if (!audio.paused) {
