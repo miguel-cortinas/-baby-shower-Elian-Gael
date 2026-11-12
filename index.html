@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -1622,7 +1622,7 @@
     <span class="music-fab__note" aria-hidden="true">♪</span>
   </button>
 
-  <audio id="bgMusic" preload="none" loop>
+  <audio id="bgMusic" preload="auto" loop playsinline>
     <source src="music/La%20Mejor%20Canci%C3%B3n.mp3" type="audio/mpeg" />
   </audio>
 
@@ -1679,36 +1679,102 @@
       const FADE_OUT_TIME = 900;  // 0.9s para desvanecido al pausar
       let fadeTimer = null;
       let isPlaying = false;
+      let isPrimed = false;
 
-      function fadeVolume(target, duration, onComplete) {
+      // Web Audio API para compatibilidad total con iOS Safari (desbloqueo de audio y control de volumen real)
+      let audioCtx = null;
+      let gainNode = null;
+
+      function getAudioContext() {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            try {
+              audioCtx = new AudioContextClass();
+              const source = audioCtx.createMediaElementSource(audio);
+              gainNode = audioCtx.createGain();
+              gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+              source.connect(gainNode);
+              gainNode.connect(audioCtx.destination);
+            } catch (e) {
+              console.warn('AudioContext fallback a volumen HTML5:', e);
+            }
+          }
+        }
+        return audioCtx;
+      }
+
+      // Desbloqueo anticipado (priming) en iOS Safari dentro del tap del usuario
+      function primeAudio() {
+        if (isPrimed) return;
+        isPrimed = true;
+
+        const ctx = getAudioContext();
+        if (ctx && ctx.state === 'suspended') {
+          ctx.resume().catch(() => {});
+        }
+
+        if (gainNode && ctx) {
+          try {
+            gainNode.gain.setValueAtTime(0, ctx.currentTime);
+          } catch (e) { }
+        } else {
+          try { audio.volume = 0; } catch (e) { }
+        }
+
+        const p = audio.play();
+        if (p !== undefined) {
+          p.catch(err => {
+            console.warn('Audio priming note:', err);
+          });
+        }
+      }
+
+      function setVolumeLevel(vol, durationMs, onComplete) {
+        const ctx = getAudioContext();
+        if (gainNode && ctx) {
+          try {
+            const now = ctx.currentTime;
+            gainNode.gain.cancelScheduledValues(now);
+            gainNode.gain.setValueAtTime(gainNode.gain.value, now);
+            gainNode.gain.linearRampToValueAtTime(vol, now + (durationMs / 1000));
+            if (onComplete) {
+              setTimeout(onComplete, durationMs);
+            }
+            return;
+          } catch (e) { }
+        }
+
+        // Fallback estándar con timer para navegadores sin Web Audio
         if (fadeTimer) {
           clearInterval(fadeTimer);
           fadeTimer = null;
         }
 
         const start = audio.volume;
-        const diff = target - start;
+        const diff = vol - start;
         if (Math.abs(diff) < 0.01) {
-          audio.volume = target;
+          audio.volume = vol;
           if (onComplete) onComplete();
           return;
         }
 
         const intervalMs = 25;
-        const steps = Math.max(1, Math.floor(duration / intervalMs));
+        const steps = Math.max(1, Math.floor(durationMs / intervalMs));
         let step = 0;
 
         fadeTimer = setInterval(() => {
           step++;
           const progress = Math.min(1, step / steps);
-          // Easing suave (curva senoidal suave)
           const ease = 0.5 - 0.5 * Math.cos(progress * Math.PI);
-          audio.volume = Math.max(0, Math.min(1, start + diff * ease));
+          try {
+            audio.volume = Math.max(0, Math.min(1, start + diff * ease));
+          } catch (e) { }
 
           if (step >= steps) {
             clearInterval(fadeTimer);
             fadeTimer = null;
-            audio.volume = target;
+            try { audio.volume = vol; } catch (e) { }
             if (onComplete) onComplete();
           }
         }, intervalMs);
@@ -1720,12 +1786,29 @@
         fab.setAttribute('aria-label', 'Pausar música de fondo');
         fab.setAttribute('title', 'Pausar música');
 
-        if (audio.paused) {
-          audio.volume = 0;
+        const ctx = getAudioContext();
+        if (ctx && ctx.state === 'suspended') {
+          ctx.resume().catch(() => {});
+        }
+
+        if (!audio.paused) {
+          try {
+            audio.currentTime = 0;
+          } catch (e) { }
+          setVolumeLevel(TARGET_VOL, FADE_IN_TIME);
+        } else {
+          if (gainNode && ctx) {
+            try {
+              gainNode.gain.setValueAtTime(0, ctx.currentTime);
+            } catch (e) { }
+          } else {
+            try { audio.volume = 0; } catch (e) { }
+          }
+
           const playPromise = audio.play();
           if (playPromise !== undefined) {
             playPromise.then(() => {
-              fadeVolume(TARGET_VOL, FADE_IN_TIME);
+              setVolumeLevel(TARGET_VOL, FADE_IN_TIME);
             }).catch(err => {
               console.warn('Interacción requerida por el navegador:', err);
               isPlaying = false;
@@ -1733,9 +1816,9 @@
               fab.setAttribute('aria-label', 'Reproducir música de fondo');
               fab.setAttribute('title', 'Música');
             });
+          } else {
+            setVolumeLevel(TARGET_VOL, FADE_IN_TIME);
           }
-        } else {
-          fadeVolume(TARGET_VOL, FADE_IN_TIME);
         }
       }
 
@@ -1745,9 +1828,9 @@
         fab.setAttribute('aria-label', 'Reproducir música de fondo');
         fab.setAttribute('title', 'Reproducir música');
 
-        fadeVolume(0, FADE_OUT_TIME, () => {
+        setVolumeLevel(0, FADE_OUT_TIME, () => {
           if (!isPlaying) {
-            audio.pause();
+            try { audio.pause(); } catch (e) { }
           }
         });
       }
@@ -1761,7 +1844,8 @@
         }
       });
 
-      // Exponer la función de inicio de música para sincronizar con el final del opening
+      // Exponer funciones globales
+      window.primeBackgroundAudio = primeAudio;
       window.startBackgroundMusic = startPlayback;
     })();
   </script>
@@ -1842,6 +1926,11 @@
         if (openingStarted) return;
         openingStarted = true;
 
+        // Desbloquear audio en iOS Safari inmediatamente dentro del gesto del usuario
+        if (typeof window.primeBackgroundAudio === 'function') {
+          window.primeBackgroundAudio();
+        }
+
         // 1. Iniciar el desvanecimiento suave de la tarjeta
         card.classList.add('is-fading-out');
 
@@ -1870,10 +1959,16 @@
 
       btnOpen.addEventListener('click', function (e) {
         e.stopPropagation();
+        if (typeof window.primeBackgroundAudio === 'function') {
+          window.primeBackgroundAudio();
+        }
         startOpening();
       });
 
       card.addEventListener('click', function () {
+        if (typeof window.primeBackgroundAudio === 'function') {
+          window.primeBackgroundAudio();
+        }
         startOpening();
       });
 
