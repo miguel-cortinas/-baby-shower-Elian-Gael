@@ -109,13 +109,15 @@
 
     .floating-deco .heart {
       position: absolute;
-      color: #8da277;
-      opacity: 0.6;
+      color: #B8973E;
+      opacity: 0.75;
       line-height: 1;
+      /* Forzar renderizado de texto, no emoji */
+      font-variant-emoji: text;
       animation: floatHeart 4.5s ease-in-out infinite;
     }
 
-    /* Estela de vuelo punteada y corazones superiores ocultos para permitir arco al borde */
+    /* Estela de vuelo punteada y corazones superiores ocultos */
     .floating-deco .flight-trail,
     .floating-deco .top-1,
     .floating-deco .top-2,
@@ -125,50 +127,46 @@
       display: none;
     }
 
-    /* ── Zona Lateral Derecha (recuadro vertical) ── */
+    /* ── Zona Lateral Derecha — solo en la mitad superior para no tapar arbustos ── */
     .floating-deco .right-1 {
-      top: 23%;
+      top: 14%;
       right: 10%;
-      font-size: 17px;
-      opacity: 0.7;
+      font-size: 16px;
+      opacity: 0.8;
       transform: rotate(12deg);
       animation-delay: 1.1s;
     }
 
     .floating-deco .right-2 {
-      top: 32%;
+      top: 24%;
       right: 7%;
       font-size: 11px;
-      opacity: 0.45;
+      opacity: 0.55;
       transform: rotate(-14deg);
       animation-delay: 2.3s;
     }
 
     .floating-deco .right-3 {
-      top: 41%;
+      top: 34%;
       right: 11%;
-      font-size: 15px;
-      opacity: 0.65;
+      font-size: 14px;
+      opacity: 0.75;
       transform: rotate(16deg);
       animation-delay: 0.6s;
     }
 
     .floating-deco .right-4 {
-      top: 50%;
+      top: 44%;
       right: 6%;
       font-size: 11px;
-      opacity: 0.45;
+      opacity: 0.5;
       transform: rotate(-10deg);
       animation-delay: 3.2s;
     }
 
+    /* right-5 oculto: zona ocupada por los arbustos */
     .floating-deco .right-5 {
-      top: 59%;
-      right: 9%;
-      font-size: 13px;
-      opacity: 0.6;
-      transform: rotate(8deg);
-      animation-delay: 1.7s;
+      display: none;
     }
 
     @keyframes floatHeart {
@@ -184,8 +182,6 @@
     }
 
     /* Animación alterna para ritmo visual orgánico */
-    .floating-deco .top-2,
-    .floating-deco .top-4,
     .floating-deco .right-2,
     .floating-deco .right-4 {
       animation-name: floatHeartAlt;
@@ -267,7 +263,7 @@
       justify-content: center;
       gap: 12px;
       margin-top: 14px;
-      color: #a4b494;
+      color: #B8973E;
     }
 
     .intro-msg__divider::before,
@@ -275,7 +271,7 @@
       content: '';
       width: 55px;
       height: 1px;
-      background: #cfd8c5;
+      background: rgba(184, 151, 62, 0.42);
     }
 
     /* ══════════════════════════════════════
@@ -316,7 +312,8 @@
     }
 
     .event-card__icon {
-      color: var(--sage-btn);
+      /* Dorado champagne para hacer juego con la paleta gold & sage */
+      color: #B8973E;
       margin-bottom: 6px;
     }
 
@@ -324,6 +321,8 @@
       width: 22px;
       height: 22px;
       stroke-width: 1.5;
+      /* Leve brillo metálico con filter */
+      filter: drop-shadow(0 1px 2px rgba(184, 151, 62, 0.35));
     }
 
     .event-card__subtitle {
@@ -373,14 +372,15 @@
       flex-direction: column;
       gap: 4px;
       align-items: center;
-      opacity: 0.55;
+      opacity: 0.85;
     }
 
     .rsvp-burst .dash {
       width: 10px;
       height: 2px;
-      background: var(--sage-btn);
+      background: #B8973E;
       border-radius: 2px;
+      box-shadow: 0 1px 2px rgba(184, 151, 62, 0.3);
     }
 
     .rsvp-burst .d1 {
@@ -553,7 +553,7 @@
     }
 
     /* ══════════════════════════════════════
-       SECCIÓN DETALLES / MESA DE REGALOS
+       SECCIÓN CONFIRMACIÓN (antes Detalles)
     ══════════════════════════════════════ */
     .gifts-wrap {
       position: relative;
@@ -586,7 +586,7 @@
       bottom: -23px;
       left: -56px;
       width: 38%;
-      max-width: 155px;
+      max-width: 120px;
       z-index: 2;
       filter: drop-shadow(0 8px 16px rgba(100, 90, 70, 0.25));
       pointer-events: none;
@@ -596,7 +596,7 @@
     .gifts-wrap__duck-peek {
       position: absolute;
       bottom: 0;
-      right: 0;
+      right: -16px;
       width: 32%;
       max-width: 155px;
       z-index: 2;
@@ -608,7 +608,7 @@
       position: relative;
       z-index: 3;
       text-align: center;
-      max-width: 320px;
+      max-width: 280px;
       margin: 0 auto;
     }
 
@@ -626,7 +626,7 @@
     .gifts-wrap__title span {
       font-family: var(--font-sans);
       font-size: 14px;
-      color: #92a480;
+      color: #B8973E;
     }
 
     .gifts-wrap__desc {
@@ -639,38 +639,47 @@
     }
 
     .btn-gifts {
+      /* Posicionado al centro inferior de la sección, entre globos y pato */
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      white-space: nowrap;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      background: #ffffff;
-      color: #4a5440;
+      gap: 6px;
+      background: var(--sage-btn);
+      color: #ffffff;
       text-decoration: none;
-      padding: 12px 26px;
+      padding: 10px 16px;
       border-radius: 100px;
-      font-size: 14px;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
       font-weight: 600;
-      border: 1px solid rgba(138, 165, 115, 0.35);
-      box-shadow: 0 4px 14px rgba(110, 100, 80, 0.08);
-      transition: all 0.2s ease;
+      letter-spacing: 0.02em;
+      border: none;
+      box-shadow: var(--shadow-btn);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       -webkit-tap-highlight-color: transparent;
     }
 
     .btn-gifts:hover {
-      background: #faf8f4;
-      border-color: var(--sage-btn);
-      transform: translateY(-1px);
+      background: var(--sage-btn-hov);
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow: 0 8px 22px rgba(125, 148, 102, 0.42);
     }
 
     .btn-gifts:active {
-      transform: scale(0.97);
+      transform: translateX(-50%) scale(0.97);
     }
 
     .btn-gifts svg {
-      width: 18px;
-      height: 18px;
-      stroke-width: 1.6;
-      stroke: var(--sage-btn);
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      fill: #ffffff;
     }
 
     /* ══════════════════════════════════════
@@ -700,7 +709,8 @@
       content: '♡';
       font-family: var(--font-sans);
       font-size: 15px;
-      opacity: 0.85;
+      color: #dfc783;
+      opacity: 0.92;
     }
 
     .closing-banner__copy {
@@ -725,8 +735,8 @@
       margin: 0;
       padding: 0;
       transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
-                  filter 1.4s ease-out;
+        transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 1.4s ease-out;
     }
 
     body.is-opening-active .invitation-wrapper {
@@ -797,14 +807,21 @@
       position: relative;
       z-index: 4;
       transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),
-                  filter 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 1.5s cubic-bezier(0.4, 0, 0.2, 1);
       animation: openingCardIn 0.75s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes openingCardIn {
-      0% { opacity: 0; transform: translateY(18px) scale(0.95); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.95);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .opening-card.is-fading-out {
@@ -828,14 +845,21 @@
 
     .opening-card__heart {
       font-size: 22px;
-      color: #8da277;
+      color: #B8973E;
       margin-bottom: 6px;
       animation: pulseHeart 2.2s infinite ease-in-out;
     }
 
     @keyframes pulseHeart {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
     }
 
     .opening-card__pre {
@@ -872,13 +896,13 @@
       gap: 12px;
       margin: 0 auto 24px;
       max-width: 170px;
-      color: #92a480;
+      color: #B8973E;
     }
 
     .opening-card__divider span {
       flex: 1;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(146, 164, 128, 0.45), transparent);
+      background: linear-gradient(90deg, transparent, rgba(184, 151, 62, 0.45), transparent);
     }
 
     .btn-opening {
@@ -905,10 +929,13 @@
     }
 
     @keyframes pulseOpeningBtn {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: scale(1);
         box-shadow: 0 8px 24px rgba(105, 128, 85, 0.45);
       }
+
       50% {
         transform: scale(1.035);
         box-shadow: 0 12px 32px rgba(105, 128, 85, 0.65);
@@ -1042,10 +1069,13 @@
 
     /* Animación suave de reposo cuando está pausado (invita a tocar) */
     @keyframes fabIdlePulse {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(0) scale(1);
         box-shadow: 0 8px 22px rgba(105, 128, 85, 0.38);
       }
+
       50% {
         transform: translateY(-3px) scale(1.03);
         box-shadow: 0 12px 26px rgba(105, 128, 85, 0.48);
@@ -1071,6 +1101,7 @@
         transform: scale(0.95);
         opacity: 0.8;
       }
+
       100% {
         transform: scale(1.55);
         opacity: 0;
@@ -1084,9 +1115,19 @@
     }
 
     @keyframes fabPlayingBounce {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      25% { transform: translateY(-3px) rotate(-3deg); }
-      75% { transform: translateY(-1px) rotate(3deg); }
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      25% {
+        transform: translateY(-3px) rotate(-3deg);
+      }
+
+      75% {
+        transform: translateY(-1px) rotate(3deg);
+      }
     }
 
     /* Estados de los íconos (Pausado vs Reproduciendo) */
@@ -1137,24 +1178,43 @@
     .music-fab.is-playing .bar-1 {
       animation: eqBounce1 0.85s ease-in-out infinite alternate;
     }
+
     .music-fab.is-playing .bar-2 {
       animation: eqBounce2 0.7s ease-in-out infinite alternate 0.15s;
     }
+
     .music-fab.is-playing .bar-3 {
       animation: eqBounce3 0.95s ease-in-out infinite alternate 0.3s;
     }
 
     @keyframes eqBounce1 {
-      0% { height: 4px; }
-      100% { height: 16px; }
+      0% {
+        height: 4px;
+      }
+
+      100% {
+        height: 16px;
+      }
     }
+
     @keyframes eqBounce2 {
-      0% { height: 16px; }
-      100% { height: 6px; }
+      0% {
+        height: 16px;
+      }
+
+      100% {
+        height: 6px;
+      }
     }
+
     @keyframes eqBounce3 {
-      0% { height: 7px; }
-      100% { height: 17px; }
+      0% {
+        height: 7px;
+      }
+
+      100% {
+        height: 17px;
+      }
     }
 
     /* Nota musical flotante cuando suena */
@@ -1178,12 +1238,15 @@
         opacity: 0;
         transform: translate(0, 0) scale(0.6) rotate(0deg);
       }
+
       30% {
         opacity: 0.9;
       }
+
       80% {
         opacity: 0.6;
       }
+
       100% {
         opacity: 0;
         transform: translate(14px, -24px) scale(1.1) rotate(20deg);
@@ -1242,7 +1305,8 @@
 <body class="is-opening-active">
 
   <!-- ══════════════ APERTURA / OPENING VIDEO ══════════════ -->
-  <div id="openingOverlay" class="opening-overlay" aria-modal="true" role="dialog" aria-label="Apertura de la invitación">
+  <div id="openingOverlay" class="opening-overlay" aria-modal="true" role="dialog"
+    aria-label="Apertura de la invitación">
     <!-- Tarjeta inicial de bienvenida -->
     <div class="opening-card" id="openingCard">
       <div class="opening-card__heart" aria-hidden="true">♡</div>
@@ -1252,7 +1316,8 @@
       <div class="opening-card__divider" aria-hidden="true">
         <span></span>
         <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
         </svg>
         <span></span>
       </div>
@@ -1260,7 +1325,7 @@
       <button type="button" class="btn-opening" id="btnOpenInvitation" aria-label="Abrir invitación y reproducir video">
         <span class="btn-opening__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z"/>
+            <path d="M8 5v14l11-7z" />
           </svg>
         </span>
         Abrir invitación
@@ -1268,17 +1333,12 @@
     </div>
 
     <!-- Video Opening -->
-    <video
-      id="openingVideo"
-      class="opening-video"
-      src="img/opening.mp4"
-      playsinline
-      webkit-playsinline
-      preload="auto">
+    <video id="openingVideo" class="opening-video" src="img/opening.mp4" playsinline webkit-playsinline preload="auto">
     </video>
 
     <!-- Botón discreto para saltar video -->
-    <button type="button" class="btn-skip-opening" id="btnSkipOpening" aria-label="Saltar video y entrar a la invitación">
+    <button type="button" class="btn-skip-opening" id="btnSkipOpening"
+      aria-label="Saltar video y entrar a la invitación">
       Saltar ✕
     </button>
   </div>
@@ -1289,211 +1349,201 @@
   <!-- Contenedor principal de la invitación -->
   <div id="invitationWrapper" class="invitation-wrapper">
 
-  <!-- ══════════════ ESCENARIO HERO ══════════════ -->
-  <header class="hero-stage" id="inicio">
-    <!-- Efectos decorativos de fondo y corazones flotantes -->
-    <div class="floating-deco" aria-hidden="true">
-      <!-- Trayectoria de vuelo punteada superior -->
-      <svg class="flight-trail" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 5,28 Q 50,5 95,24 T 155,10" stroke="rgba(142, 163, 122, 0.45)" stroke-width="1.5"
-          stroke-dasharray="3,3" stroke-linecap="round" />
-      </svg>
-
-      <!-- Zona Superior -->
-      <span class="heart top-1">♡</span>
-      <span class="heart top-2">♥</span>
-      <span class="heart top-3">♡</span>
-      <span class="heart top-4">♥</span>
-      <span class="heart top-5">♡</span>
-
-      <!-- Zona Lateral Derecha -->
-      <span class="heart right-1">♡</span>
-      <span class="heart right-2">♥</span>
-      <span class="heart right-3">♡</span>
-      <span class="heart right-4">♥</span>
-      <span class="heart right-5">♡</span>
-    </div>
-
-    <!-- Piso 3D con sombra de contacto -->
-    <div class="hero-stage__ground" aria-hidden="true"></div>
-
-    <!-- Capa 1: Mampara verde con arco, moño vichy y guirnalda -->
-    <img class="stage__mampara" src="img/mampara.png"
-      alt="Escenario decorado para Baby Shower con arco verde, globos y texto" loading="eager" />
-
-    <!-- Capa 2: Patito en primer plano (centro-izquierda sobre el suelo) -->
-    <img class="stage__pato" src="img/pato.png" alt="Patito del Baby Shower" loading="eager" />
-
-    <!-- Capa 3: Macetas y pedestales a la derecha -->
-    <img class="stage__macetas" src="img/macetas.png" alt="Pedestales decorativos con topiarios" loading="eager" />
-  </header>
-
-  <main>
-
-    <!-- ══════════════ 3. FRASE DE BIENVENIDA ══════════════ -->
-    <section class="intro-msg">
-      <p class="intro-msg__quote">Será un gusto compartir este momento tan especial contigo.</p>
-      <div class="intro-msg__divider" aria-hidden="true">♡</div>
-    </section>
-
-    <!-- ══════════════ 4. TARJETAS DE DETALLES ══════════════ -->
-    <section class="event-cards" id="detalles" aria-label="Detalles del evento">
-      <!-- Fecha -->
-      <article class="event-card">
-        <div class="event-card__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-          </svg>
-        </div>
-        <span class="event-card__subtitle">Viernes</span>
-        <span class="event-card__main">5 de<br />Diciembre</span>
-      </article>
-
-      <!-- Hora -->
-      <article class="event-card">
-        <div class="event-card__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
-        </div>
-        <span class="event-card__subtitle">Hora</span>
-        <span class="event-card__main">4:00</span>
-        <span class="event-card__extra">p.m.</span>
-      </article>
-
-      <!-- Lugar -->
-      <a href="https://maps.app.goo.gl/aNxLwX6WqjVd1Rce7" target="_blank" rel="noopener noreferrer" class="event-card event-card--link" aria-label="Lugar: Granja Gutiérrez (abrir en Google Maps)">
-        <div class="event-card__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
-        </div>
-        <span class="event-card__subtitle">Lugar</span>
-        <span class="event-card__main event-card__main--venue">
-          <span>Granja</span>
-          <span>Gutiérrez</span>
-        </span>
-      </a>
-    </section>
-
-    <!-- ══════════════ 5. CUENTA REGRESIVA ══════════════ -->
-    <section class="countdown-box" aria-label="Cuenta regresiva para el evento">
-      <div class="rsvp-burst" aria-hidden="true">
-        <span class="dash d1"></span>
-        <span class="dash d2"></span>
-        <span class="dash d3"></span>
-      </div>
-
-      <div class="countdown-capsule" role="timer" aria-live="polite">
-        <div class="countdown-item">
-          <span class="countdown-num" id="cd-days">--</span>
-          <span class="countdown-label">Días</span>
-        </div>
-        <span class="countdown-sep" aria-hidden="true">:</span>
-        <div class="countdown-item">
-          <span class="countdown-num" id="cd-hours">--</span>
-          <span class="countdown-label">Horas</span>
-        </div>
-        <span class="countdown-sep" aria-hidden="true">:</span>
-        <div class="countdown-item">
-          <span class="countdown-num" id="cd-mins">--</span>
-          <span class="countdown-label">Min</span>
-        </div>
-        <span class="countdown-sep" aria-hidden="true">:</span>
-        <div class="countdown-item">
-          <span class="countdown-num" id="cd-secs">--</span>
-          <span class="countdown-label">Seg</span>
-        </div>
-      </div>
-
-      <div class="rsvp-burst rsvp-burst--right" aria-hidden="true">
-        <span class="dash d1"></span>
-        <span class="dash d2"></span>
-        <span class="dash d3"></span>
-      </div>
-
-    </section>
-
-
-
-    <!-- ══════════════ 6. MAPA DE UBICACIÓN ══════════════ -->
-    <section class="map-section" id="ubicacion" aria-label="Ubicación del evento">
-      <div class="map-frame">
-        <!-- iframe del mapa (z-index 1, detrás del marco) -->
-        <iframe
-          class="map-frame__embed"
-          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3501.150552103213!2d-106.00347522449842!3d28.655210475652176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjjCsDM5JzE4LjgiTiAxMDbCsDAwJzAzLjIiVw!5e0!3m2!1ses!2smx!4v1794248083890!5m2!1ses!2smx"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-          title="Ubicación de Granja Gutiérrez">
-        </iframe>
-        <!-- Marco decorativo encima del iframe (z-index 2) -->
-        <img
-          class="map-frame__img"
-          src="img/marco-ubicacion.png"
-          alt=""
-          aria-hidden="true"
-          loading="lazy" />
-      </div>
-
-      <!-- Botón Abrir en Google Maps -->
-      <a
-        class="btn-maps"
-        href="https://maps.app.goo.gl/2V1gmcZUbA9UdWVYA"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Abrir ubicación en Google Maps">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+    <!-- ══════════════ ESCENARIO HERO ══════════════ -->
+    <header class="hero-stage" id="inicio">
+      <!-- Efectos decorativos de fondo y corazones flotantes -->
+      <div class="floating-deco" aria-hidden="true">
+        <!-- Trayectoria de vuelo punteada superior -->
+        <svg class="flight-trail" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 5,28 Q 50,5 95,24 T 155,10" stroke="rgba(142, 163, 122, 0.45)" stroke-width="1.5"
+            stroke-dasharray="3,3" stroke-linecap="round" />
         </svg>
-        Abrir en Google Maps
-      </a>
-    </section>
 
-    <!-- ══════════════ 7. MESA DE REGALOS (RACIMO GLOBOS + PATO ASOMÁNDOSE) ══════════════ -->
-    <section class="gifts-wrap" id="regalos" aria-label="Mesa de regalos">
-      <!-- Racimo con moño a la izquierda -->
-      <img class="gifts-wrap__balloons" src="img/conjunto-globos.png" alt="" aria-hidden="true" loading="lazy" />
+        <!-- Zona Superior -->
+        <span class="heart top-1">♡</span>
+        <span class="heart top-2">♡</span>
+        <span class="heart top-3">♡</span>
+        <span class="heart top-4">♡</span>
+        <span class="heart top-5">♡</span>
 
-      <!-- Patito asomándose a la derecha -->
-      <img class="gifts-wrap__duck-peek" src="img/pato-asomandose.png" alt="" aria-hidden="true" loading="lazy" />
-
-      <!-- Contenido central -->
-      <div class="gifts-wrap__content">
-        <h2 class="gifts-wrap__title">
-          <span>♡</span> Detalles <span>♡</span>
-        </h2>
-        <p class="gifts-wrap__desc">
-          Tu presencia es el mejor regalo,<br />
-          pero si deseas obsequiar algo, aquí te dejamos nuestra mesa de regalos.
-        </p>
-        <a href="#" class="btn-gifts" aria-label="Abrir mesa de regalos">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-            aria-hidden="true">
-            <polyline points="20 12 20 22 4 22 4 12" />
-            <rect x="2" y="7" width="20" height="5" />
-            <line x1="12" y1="22" x2="12" y2="7" />
-            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
-            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
-          </svg>
-          Mesa de Regalos
-        </a>
+        <!-- Zona Lateral Derecha -->
+        <span class="heart right-1">♡</span>
+        <span class="heart right-2">♡</span>
+        <span class="heart right-3">♡</span>
+        <span class="heart right-4">♡</span>
+        <span class="heart right-5">♡</span>
       </div>
-    </section>
 
-  </main>
+      <!-- Piso 3D con sombra de contacto -->
+      <div class="hero-stage__ground" aria-hidden="true"></div>
 
-  <!-- ══════════════ 7. BANNER FINAL ¡TE ESPERAMOS! ══════════════ -->
-  <footer class="closing-banner" role="contentinfo">
-    <p class="closing-banner__script">¡Te esperamos!</p>
-    <p class="closing-banner__copy">Elian Gael · 5 de Diciembre · Granja Gutiérrez</p>
-  </footer>
+      <!-- Capa 1: Mampara verde con arco, moño vichy y guirnalda -->
+      <img class="stage__mampara" src="img/mampara.png"
+        alt="Escenario decorado para Baby Shower con arco verde, globos y texto" loading="eager" />
+
+      <!-- Capa 2: Patito en primer plano (centro-izquierda sobre el suelo) -->
+      <img class="stage__pato" src="img/pato.png" alt="Patito del Baby Shower" loading="eager" />
+
+      <!-- Capa 3: Macetas y pedestales a la derecha -->
+      <img class="stage__macetas" src="img/macetas.png" alt="Pedestales decorativos con topiarios" loading="eager" />
+    </header>
+
+    <main>
+
+      <!-- ══════════════ 3. FRASE DE BIENVENIDA ══════════════ -->
+      <section class="intro-msg">
+        <p class="intro-msg__quote">Será un gusto compartir este momento tan especial contigo.</p>
+        <div class="intro-msg__divider" aria-hidden="true">♡</div>
+      </section>
+
+      <!-- ══════════════ 4. TARJETAS DE DETALLES ══════════════ -->
+      <section class="event-cards" id="detalles" aria-label="Detalles del evento">
+        <!-- Fecha -->
+        <article class="event-card">
+          <div class="event-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+          </div>
+          <span class="event-card__subtitle">Viernes</span>
+          <span class="event-card__main">5 de<br />Diciembre</span>
+        </article>
+
+        <!-- Hora -->
+        <article class="event-card">
+          <div class="event-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <span class="event-card__subtitle">Hora</span>
+          <span class="event-card__main">4:00</span>
+          <span class="event-card__extra">p.m.</span>
+        </article>
+
+        <!-- Lugar -->
+        <a href="https://maps.app.goo.gl/aNxLwX6WqjVd1Rce7" target="_blank" rel="noopener noreferrer"
+          class="event-card event-card--link" aria-label="Lugar: Granja Gutiérrez (abrir en Google Maps)">
+          <div class="event-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <span class="event-card__subtitle">Lugar</span>
+          <span class="event-card__main event-card__main--venue">
+            <span>Granja</span>
+            <span>Gutiérrez</span>
+          </span>
+        </a>
+      </section>
+
+      <!-- ══════════════ 5. CUENTA REGRESIVA ══════════════ -->
+      <section class="countdown-box" aria-label="Cuenta regresiva para el evento">
+        <div class="rsvp-burst" aria-hidden="true">
+          <span class="dash d1"></span>
+          <span class="dash d2"></span>
+          <span class="dash d3"></span>
+        </div>
+
+        <div class="countdown-capsule" role="timer" aria-live="polite">
+          <div class="countdown-item">
+            <span class="countdown-num" id="cd-days">--</span>
+            <span class="countdown-label">Días</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-item">
+            <span class="countdown-num" id="cd-hours">--</span>
+            <span class="countdown-label">Horas</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-item">
+            <span class="countdown-num" id="cd-mins">--</span>
+            <span class="countdown-label">Min</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-item">
+            <span class="countdown-num" id="cd-secs">--</span>
+            <span class="countdown-label">Seg</span>
+          </div>
+        </div>
+
+        <div class="rsvp-burst rsvp-burst--right" aria-hidden="true">
+          <span class="dash d1"></span>
+          <span class="dash d2"></span>
+          <span class="dash d3"></span>
+        </div>
+
+      </section>
+
+
+
+      <!-- ══════════════ 6. MAPA DE UBICACIÓN ══════════════ -->
+      <section class="map-section" id="ubicacion" aria-label="Ubicación del evento">
+        <div class="map-frame">
+          <!-- iframe del mapa (z-index 1, detrás del marco) -->
+          <iframe class="map-frame__embed"
+            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3501.150552103213!2d-106.00347522449842!3d28.655210475652176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjjCsDM5JzE4LjgiTiAxMDbCsDAwJzAzLjIiVw!5e0!3m2!1ses!2smx!4v1794248083890!5m2!1ses!2smx"
+            allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
+            title="Ubicación de Granja Gutiérrez">
+          </iframe>
+          <!-- Marco decorativo encima del iframe (z-index 2) -->
+          <img class="map-frame__img" src="img/marco-ubicacion.png" alt="" aria-hidden="true" loading="lazy" />
+        </div>
+
+        <!-- Botón Abrir en Google Maps -->
+        <a class="btn-maps" href="https://maps.app.goo.gl/2V1gmcZUbA9UdWVYA" target="_blank" rel="noopener noreferrer"
+          aria-label="Abrir ubicación en Google Maps">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
+          </svg>
+          Abrir en Google Maps
+        </a>
+      </section>
+
+      <!-- ══════════════ 7. CONFIRMACIÓN DE ASISTENCIA ══════════════ -->
+      <section class="gifts-wrap" id="confirmacion" aria-label="Confirmación de asistencia">
+        <!-- Racimo con moño a la izquierda -->
+        <img class="gifts-wrap__balloons" src="img/conjunto-globos.png" alt="" aria-hidden="true" loading="lazy" />
+
+        <!-- Patito asomándose a la derecha -->
+        <img class="gifts-wrap__duck-peek" src="img/pato-asomandose.png" alt="" aria-hidden="true" loading="lazy" />
+
+        <!-- Contenido central: título y texto -->
+        <div class="gifts-wrap__content">
+          <h2 class="gifts-wrap__title">
+            <span>♡</span> Confirmación <span>♡</span>
+          </h2>
+          <p class="gifts-wrap__desc">
+            Tu presencia es el mejor regalo.<br />
+            Por favor confírmanos tu asistencia para tenerte en cuenta.
+          </p>
+        </div>
+
+        <!-- Botón flotante al pie, entre globos y pato -->
+        <a href="https://wa.me/526143434277?text=¡Hola!%20Confirmo%20mi%20asistencia%20al%20Baby%20Shower%20de%20Elian%20Gael%20el%205%20de%20Diciembre.%20%F0%9F%92%9A"
+          target="_blank" rel="noopener noreferrer" class="btn-gifts" aria-label="Confirmar asistencia por WhatsApp">
+          <!-- Ícono WhatsApp -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+          </svg>
+          Confirmar asistencia
+        </a>
+      </section>
+
+    </main>
+
+    <!-- ══════════════ 7. BANNER FINAL ¡TE ESPERAMOS! ══════════════ -->
+    <footer class="closing-banner" role="contentinfo">
+      <p class="closing-banner__script">¡Te esperamos!</p>
+      <p class="closing-banner__copy">Elian Gael · 5 de Diciembre · Granja Gutiérrez</p>
+    </footer>
   </div> <!-- /#invitationWrapper -->
 
   <!-- ══════════════ REPRODUCTOR DE MÚSICA & BOTÓN FLOTANTE ══════════════ -->
@@ -1503,7 +1553,8 @@
 
     <!-- Ícono cuando está pausado (Nota musical) -->
     <span class="music-fab__state music-fab__state--paused" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
         <path d="M9 18V5l12-2v13" />
         <circle cx="6" cy="18" r="3" fill="currentColor" />
         <circle cx="18" cy="16" r="3" fill="currentColor" />
@@ -1693,7 +1744,7 @@
         // 1. Pausar y silenciar video del opening
         try {
           video.pause();
-        } catch (e) {}
+        } catch (e) { }
 
         // 2. Activar cortina oscura (fondo negro que empata con el final del video)
         if (curtain) {
