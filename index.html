@@ -490,6 +490,29 @@
       align-self: center;
     }
 
+    .countdown-finished {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      padding: 2px 6px;
+      text-shadow: 0 1px 3px rgba(50, 65, 35, 0.25);
+      animation: fadeInFinished 0.6s ease-out;
+    }
+
+    @keyframes fadeInFinished {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
     /* ══════════════════════════════════════
        MAPA DE UBICACIÓN EN MARCO DECORATIVO
     ══════════════════════════════════════ */
@@ -1337,6 +1360,11 @@
         font-size: 7.5px;
       }
 
+      .countdown-finished {
+        font-size: 11px;
+        letter-spacing: 0.02em;
+      }
+
       .music-fab {
         width: 44px;
         height: 44px;
@@ -1491,7 +1519,7 @@
           <span class="dash d3"></span>
         </div>
 
-        <div class="countdown-capsule" role="timer" aria-live="off">
+        <div class="countdown-capsule" id="countdownCapsule" role="timer" aria-live="off">
           <div class="countdown-item">
             <span class="countdown-num" id="cd-days">--</span>
             <span class="countdown-label">Días</span>
@@ -1631,18 +1659,16 @@
     (function () {
       function updateCountdown() {
         const now = new Date();
-        let targetYear = now.getFullYear();
-        let targetDate = new Date(targetYear, 11, 5, 16, 0, 0); // 5 de Diciembre, 16:00
-        if (now > targetDate) {
-          targetDate = new Date(targetYear + 1, 11, 5, 16, 0, 0);
-        }
+        const targetYear = now.getFullYear();
+        const targetDate = new Date(targetYear, 11, 5, 16, 0, 0); // 5 de Diciembre, 16:00
 
         const diff = targetDate - now;
         if (diff <= 0) {
-          document.getElementById('cd-days').textContent = '00';
-          document.getElementById('cd-hours').textContent = '00';
-          document.getElementById('cd-mins').textContent = '00';
-          document.getElementById('cd-secs').textContent = '00';
+          const capsule = document.getElementById('countdownCapsule');
+          if (capsule && !capsule.classList.contains('is-finished')) {
+            capsule.classList.add('is-finished');
+            capsule.innerHTML = '<span class="countdown-finished">¡El evento ha comenzado!</span>';
+          }
           return;
         }
 
