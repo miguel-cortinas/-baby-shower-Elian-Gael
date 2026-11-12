@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -42,18 +42,21 @@
   <!-- Fallback para motores de vista previa -->
   <link rel="image_src" href="https://baby-shower-elian-gael.pages.dev/img/portada.png" />
 
-  <!-- Google Fonts: Great Vibes (script elegante) + Cormorant Garamond / Lato (lectura limpia) -->
+  <!-- Google Fonts: Great Vibes · Playfair Display · Quicksand -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
 
+  <meta name="color-scheme" content="light only">
+
   <style>
     /* ══════════════════════════════════════
        DESIGN SYSTEM TOKENS
     ══════════════════════════════════════ */
     :root {
+      color-scheme: light only;
       --sage-arch: #899e74;
       --sage-btn: #8ca375;
       --sage-btn-hov: #789062;
@@ -95,6 +98,10 @@
       background: var(--cream-bg);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      touch-action: manipulation;
       overflow-x: hidden;
       margin: 0 auto;
       max-width: 480px;
@@ -152,16 +159,6 @@
       animation: floatHeart 4.5s ease-in-out infinite;
     }
 
-    /* Estela de vuelo punteada y corazones superiores ocultos */
-    .floating-deco .flight-trail,
-    .floating-deco .top-1,
-    .floating-deco .top-2,
-    .floating-deco .top-3,
-    .floating-deco .top-4,
-    .floating-deco .top-5 {
-      display: none;
-    }
-
     /* ── Zona Lateral Derecha — solo en la mitad superior para no tapar arbustos ── */
     .floating-deco .right-1 {
       top: 14%;
@@ -199,11 +196,6 @@
       animation-delay: 3.2s;
     }
 
-    /* right-5 oculto: zona ocupada por los arbustos */
-    .floating-deco .right-5 {
-      display: none;
-    }
-
     @keyframes floatHeart {
 
       0%,
@@ -236,8 +228,14 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .floating-deco .heart {
-        animation: none;
+      .floating-deco .heart,
+      .opening-card__heart,
+      .music-fab,
+      .music-fab__ring,
+      .music-fab__note,
+      .btn-opening {
+        animation: none !important;
+        transition: none !important;
       }
     }
 
@@ -424,7 +422,6 @@
     }
 
     .rsvp-burst .d2 {
-      transform: rotate(0deg);
       width: 12px;
     }
 
@@ -491,22 +488,6 @@
       opacity: 0.55;
       padding: 0 1px 5px;
       align-self: center;
-    }
-
-    .btn-rsvp:hover {
-      background: var(--sage-btn-hov);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 22px rgba(125, 148, 102, 0.42);
-    }
-
-    .btn-rsvp:active {
-      transform: scale(0.97);
-    }
-
-    .btn-rsvp svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
     }
 
     /* ══════════════════════════════════════
@@ -801,8 +782,6 @@
       position: relative;
       width: 100%;
       min-height: 100vh;
-      margin: 0;
-      padding: 0;
       transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
         transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
         filter 1.4s ease-out;
@@ -850,6 +829,7 @@
       inset: 0;
       z-index: 10000;
       background: radial-gradient(circle at center, #262c20 0%, #0d120a 100%);
+      color-scheme: dark;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -875,6 +855,7 @@
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 2px 12px rgba(142, 163, 122, 0.25);
       position: relative;
       z-index: 4;
+      will-change: transform;
       transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),
         filter 1.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -992,9 +973,13 @@
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(105, 128, 85, 0.45);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      outline: none;
       animation: pulseOpeningBtn 2.6s infinite ease-in-out;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-opening:focus-visible {
+      outline: 2px solid rgba(255,255,255,0.8);
+      outline-offset: 3px;
     }
 
     @keyframes pulseOpeningBtn {
@@ -1117,6 +1102,7 @@
       opacity: 0;
       pointer-events: none;
       transform: scale(0.6);
+      will-change: transform;
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, box-shadow 0.25s ease;
     }
 
@@ -1402,7 +1388,7 @@
     </div>
 
     <!-- Video Opening -->
-    <video id="openingVideo" class="opening-video" src="img/opening.mp4" playsinline webkit-playsinline preload="auto">
+    <video id="openingVideo" class="opening-video" src="img/opening.mp4" playsinline muted preload="auto">
     </video>
 
     <!-- Botón discreto para saltar video -->
@@ -1422,25 +1408,11 @@
     <header class="hero-stage" id="inicio">
       <!-- Efectos decorativos de fondo y corazones flotantes -->
       <div class="floating-deco" aria-hidden="true">
-        <!-- Trayectoria de vuelo punteada superior -->
-        <svg class="flight-trail" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 5,28 Q 50,5 95,24 T 155,10" stroke="rgba(142, 163, 122, 0.45)" stroke-width="1.5"
-            stroke-dasharray="3,3" stroke-linecap="round" />
-        </svg>
-
-        <!-- Zona Superior -->
-        <span class="heart top-1">♡</span>
-        <span class="heart top-2">♡</span>
-        <span class="heart top-3">♡</span>
-        <span class="heart top-4">♡</span>
-        <span class="heart top-5">♡</span>
-
         <!-- Zona Lateral Derecha -->
         <span class="heart right-1">♡</span>
         <span class="heart right-2">♡</span>
         <span class="heart right-3">♡</span>
         <span class="heart right-4">♡</span>
-        <span class="heart right-5">♡</span>
       </div>
 
       <!-- Piso 3D con sombra de contacto -->
@@ -1519,7 +1491,7 @@
           <span class="dash d3"></span>
         </div>
 
-        <div class="countdown-capsule" role="timer" aria-live="polite">
+        <div class="countdown-capsule" role="timer" aria-live="off">
           <div class="countdown-item">
             <span class="countdown-num" id="cd-days">--</span>
             <span class="countdown-label">Días</span>
@@ -1548,8 +1520,6 @@
         </div>
 
       </section>
-
-
 
       <!-- ══════════════ 6. MAPA DE UBICACIÓN ══════════════ -->
       <section class="map-section" id="ubicacion" aria-label="Ubicación del evento">
@@ -1652,9 +1622,8 @@
     <span class="music-fab__note" aria-hidden="true">♪</span>
   </button>
 
-  <audio id="bgMusic" preload="auto" loop>
+  <audio id="bgMusic" preload="none" loop>
     <source src="music/La%20Mejor%20Canci%C3%B3n.mp3" type="audio/mpeg" />
-    <source src="music/La Mejor Canción.mp3" type="audio/mpeg" />
   </audio>
 
   <!-- Lógica de Cuenta Regresiva -->
@@ -1817,9 +1786,7 @@
         hasFinished = true;
 
         // 0. Anclar posición de scroll al inicio superior absoluto (0, 0)
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: 'instant' });
 
         // 1. Pausar y silenciar video del opening
         try {
